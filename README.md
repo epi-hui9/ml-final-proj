@@ -8,6 +8,15 @@ The central goal of this project is to investigate whether different schools of 
 
 This project uses the [History of Philosophy](https://www.kaggle.com/datasets/kouroshalizadeh/history-of-philosophy) dataset from Kaggle as the primary data source. Please download the dataset and place it in the `data/` directory before running the code.
 
+## Models Overview
+
+| Model | Strategy | How it Works |
+| :--- | :--- | :--- |
+| Decision Tree | Native | The tree is built to separate all 13 classes. Each leaf node is assigned a class. |
+| Random Forest | Native | Averages the votes from many native multi-class Decision Trees. |
+| Linear SVM (LinearSVC) | One-vs-Rest (OvR) | Trains 13 independent binary models (one for each class vs. the rest). |
+| Logistic Regression | Multinomial (Softmax) | Trains a single model that outputs a probability for each of the 13 classes at once. |
+
 ## 01 Data Preprocessing
 
 From the EDA of the original full dataset, we learned that:
@@ -48,3 +57,7 @@ So far, our results are:
 The Linear SVM is our best performing model, with Logistic Regression as a very close second. Linear models dramatically outperformed tree-based models. A possible reason is that the TF-IDF matrix is very wide (5,000 features) and sparse, which is a setting where linear models excel. Linear models are not only more accurate but also much faster to train.
 
 Even though the performance improves with linear models, the F1-scores for minority classes like "Stoicism" remain low (0.21 for SVM). This indicates that while overall accuracy is good, the model still struggles with less represented classes.
+
+## 04 SVM Analysis
+
+
