@@ -16,9 +16,9 @@ From the EDA of the original full dataset, we learned that:
 - The classes are not evenly distributed. "Analytic" has 55k entries, while "Stoicism" only has 2.5k. Our models will be much better at predicting the common classes. When we look at the results, we must check the F1-score for "Stoicism" to see if the model is just ignoring it.
 - The average sentence is 151 characters, but the max is 2,649. This is a wide range, but TF-IDF is generally robust to this.
 
-## 02 Model Training
+## 02 Base Modeling
 
-This very first step involves basic model training using TF-IDF vectorization and two classifiers: Decision Tree and Random Forest. This serves as a baseline for more complex models.
+This very first step involved basic model training using TF-IDF vectorization and two classifiers: Decision Tree and Random Forest. This served as a baseline for more complex models.
 
 1. Decision Tree (Accuracy: 36.8%):
 
@@ -31,3 +31,20 @@ This very first step involves basic model training using TF-IDF vectorization an
     - We have imbalanced classes. 'stoicism' has a precision of 0.60, but a recall of 0.09. This means that when the model predicts 'stoicism', it's usually right, but it misses most of the actual 'stoicism' sentences.
     - From the feature importance results, the top feature is 'pron' (0.028408). This is an artifact from the lemmatizer — it's the token for "pronoun". It is noise and not a real word. We need to remove it.
     - Other top features are exactly what we'd hope to see: 'woman' (likely from "feminism"), 'god', 'man', 'idea', 'madness' (likely "nietzsche" or "continental"). This proves our core concept is working.
+
+## 03 Model Comparison
+
+We improved our TF-IDF vectorization by adding 'pron' to the stop words list. We trained four models: Decision Tree, Random Forest, Logistic Regression, and SVM based on the improved data.
+
+So far, our results are:
+
+| Model | Overall Accuracy | Weighted F1-Score | Training Time |
+| :--- | :--- | :--- | :--- |
+| Decision Tree | 39.2% | 0.39 | 5.27s |
+| Random Forest | 50.6% | 0.50 | 3.18s |
+| Logistic Regression | 63.9% | 0.64 | 0.30s |
+| Linear SVM | 64.4% | 0.64 | 0.74s |
+
+The Linear SVM is our best performing model, with Logistic Regression as a very close second. Linear models dramatically outperformed tree-based models. A possible reason is that the TF-IDF matrix is very wide (5,000 features) and sparse, which is a setting where linear models excel. Linear models are not only more accurate but also much faster to train.
+
+Even though the performance improves with linear models, the F1-scores for minority classes like "Stoicism" remain low (0.21 for SVM). This indicates that while overall accuracy is good, the model still struggles with less represented classes.
