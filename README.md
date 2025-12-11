@@ -124,6 +124,39 @@ For example:
 - *Phenomenology* and *Continental* are rich in Heideggerian/German terminology (“dasein”, “givenness”, “facticity”).  
 - *Stoicism* shows early Christian/archaic English structures (“thou”, “doth”).  
 
+## 05 Discussion
 
 
+### Model Performance Insights
 
+Linear models (SVM, Logistic Regression) significantly outperform tree-based models on high-dimensional sparse TF-IDF features.
+
+Tree models overfit easily due to the extremely wide feature space (5,000+ tokens).
+
+Full-dataset training greatly improves minority-class performance, especially “Stoicism,” whose F1-score more than doubled.
+
+### Error Patterns
+
+Misclassification mostly occurs among conceptually similar schools (e.g., Phenomenology vs Continental, Rationalism vs Empiricism).
+
+Schools with limited data (e.g., Stoicism) show unstable predictions when trained on small samples, but improve significantly on the full dataset.
+
+### Linguistic Distinctiveness
+
+The SVM analysis reveals clear linguistic clusters—for instance Nietzsche uses highly archaic spellings, Feminism centers on gender-political terminology, and Phenomenology heavily uses German philosophical terms.
+
+## 06 future work
+
+There are several directions that could further improve our results:
+
+Use more advanced text representations such as sentence embeddings or transformer-based models (e.g., BERT), which may capture deeper semantic patterns than TF-IDF.
+
+Address class imbalance, especially for rare schools like Stoicism, using class weighting or oversampling techniques.
+
+Perform deeper error analysis to understand why certain schools (e.g., Continental vs. Phenomenology) are frequently confused and refine preprocessing accordingly.
+
+Try additional models, including neural networks or regularized linear models with different hyperparameters, to see whether performance can be pushed beyond the current ~70% accuracy.
+
+## 07 Github Repository
+
+https://github.com/epi-hui9/ml-final-proj.git
