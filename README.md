@@ -58,6 +58,25 @@ The Linear SVM is our best performing model, with Logistic Regression as a very 
 
 Even though the performance improves with linear models, the F1-scores for minority classes like "Stoicism" remain low (0.21 for SVM). This indicates that while overall accuracy is good, the model still struggles with less represented classes.
 
+### Sample vs. Full Dataset Comparison
+
+To understand how much we benefit from training on all 360k examples, we compare the metrics from the **small stratified sample** (used in early experiments) and the **full dataset** side by side:
+
+| Model               | Accuracy (Sample) | Accuracy (Full) | Δ Accuracy | Weighted F1 (Sample) | Weighted F1 (Full) | Δ F1  |
+| :------------------ | :---------------: | :-------------: | :--------: | :-------------------: | :----------------: | :---: |
+| Decision Tree       | 39.2%             | 46.6%           | +7.4 pts   | 0.39                  | 0.46               | +0.07 |
+| Random Forest       | 50.6%             | 58.7%           | +8.1 pts   | 0.50                  | 0.58               | +0.08 |
+| Logistic Regression | 63.9%             | 69.6%           | +5.7 pts   | 0.64                  | 0.69               | +0.05 |
+| Linear SVM          | 64.4%             | 69.5%           | +5.1 pts   | 0.64                  | 0.69               | +0.05 |
+
+Key observations:
+
+- **All models improve** by roughly **5–8 percentage points** in accuracy when moving from the sample to the full dataset.
+- The **ranking of models does not change**: linear models (Logistic Regression, Linear SVM) remain clearly stronger than tree-based models, which confirms that our early small-sample experiments were already pointing in the right direction.
+- Tree-based models gain the most in absolute terms (+7–8 pts), but they are still clearly behind the linear models on this high-dimensional, sparse TF-IDF representation.
+- On the full dataset, minority classes such as **Stoicism** see a large boost in F1-score (e.g., Linear SVM Stoicism F1 from ~0.21 on the sample to **0.54** on the full data), showing that using the entire corpus is crucial for rare schools.
+
+
 ## 04 SVM Analysis
 
 
