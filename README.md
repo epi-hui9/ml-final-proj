@@ -61,3 +61,34 @@ Even though the performance improves with linear models, the F1-scores for minor
 ## 04 SVM Analysis
 
 
+After identifying Linear SVM as the best performing model, we conducted deeper analysis to examine how the model makes decisions and which linguistic features are most informative for each philosophical school.
+
+### Top 10 Indicative Features for Each School
+
+The following are the top positively weighted TF-IDF tokens for each of the 13 classes. These tokens represent the strongest textual signals that the SVM relies on during classification:
+
+[ANALYTIC]: nozick, counterfactual, frege, carnap, quine, semantical, kaplan, nixon, unicorn, objct  
+[ARISTOTLE]: incontinent, enthymeme, semen, nutriment, excellence, incontinence, empedocles, reputable, concoction, grub  
+[CAPITALISM]: liquidity, bounty, tax, unemployment, investment, butcher, saving, clergy, scarcity, employment  
+[COMMUNISM]: kautsky, imperialism, capitalistic, workpeople, marxism, engels, factory, inspector, bourgeois, colonial  
+[CONTINENTAL]: levinas, artaud, confinement, madness, pinel, oedipal, bic, foucault, derrida, familial  
+[EMPIRICISM]: betwixt, coue, encrease, uneasiness, conformable, commonwealth, solidity, innate, contrivance, immaterial  
+[FEMINISM]: housework, housewife, woman, racism, lynching, mme, rape, motherhood, racist, femininity  
+[GERMAN_IDEALISM]: determinateness, purposiveness, cognition, sache, purposive, alaska, supersensible, sublate, sensuous, principien  
+[NIETZSCHE]: zarathustra, verily, wagner, ye, christianity, germans, instinct, yea, spake, priest  
+[PHENOMENOLOGY]: givenness, ontically, dasein, pregiven, epoche, unconcealment, factical, tactile, ontologically, factically  
+[PLATO]: expertise, dion, critias, clinias, glaucon, cratylus, phaedrus, theaetetus, euthydemus, cebes  
+[RATIONALISM]: bayle, lens, enor, vortex, lhe, jupiter, fiber, wherefore, prop, def  
+[STOICISM]: whatsoever, doth, conceit, unto, hurt, discretion, commend, worldly, thou, meat  
+
+These keywords validate our assumption that different philosophical schools exhibit distinctive linguistic patterns.  
+For example:
+
+- *Nietzsche* includes highly idiosyncratic archaic terms (“verily”, “ye”, “spake”).  
+- *Feminism* contains gender- and society-related vocabulary (“housewife”, “racism”, “rape”).  
+- *Phenomenology* and *Continental* are rich in Heideggerian/German terminology (“dasein”, “givenness”, “facticity”).  
+- *Stoicism* shows early Christian/archaic English structures (“thou”, “doth”).  
+
+
+
+
