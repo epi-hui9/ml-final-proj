@@ -58,6 +58,22 @@ The Linear SVM is our best performing model, with Logistic Regression as a very 
 
 Even though the performance improves with linear models, the F1-scores for minority classes like "Stoicism" remain low (0.21 for SVM). This indicates that while overall accuracy is good, the model still struggles with less represented classes.
 
+### Results on Full Dataset
+
+After verifying model behavior on the small sample, we reran all experiments on the **full dataset**.  
+This produces much more stable and reliable results:
+
+| Model               | Overall Accuracy | Weighted F1-Score | Training Time |
+| :------------------ | :--------------: | :----------------: | :-----------: |
+| Decision Tree       | 46.6%            | 0.46               | 63.10s        |
+| Random Forest       | 58.7%            | 0.58               | 120.33s       |
+| Logistic Regression | 69.6%            | 0.69               | 3.07s         |
+| Linear SVM          | 69.5%            | 0.69               | 12.08s        |
+
+As expected, using all **360k samples** significantly improves performance across all models —  
+especially for minority classes like **Stoicism**, whose F1-score more than doubled on the full dataset.
+
+
 ### Sample vs. Full Dataset Comparison
 
 To understand how much we benefit from training on all 360k examples, we compare the metrics from the **small stratified sample** (used in early experiments) and the **full dataset** side by side:
