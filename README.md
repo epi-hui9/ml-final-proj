@@ -58,6 +58,105 @@ The Linear SVM is our best performing model, with Logistic Regression as a very 
 
 Even though the performance improves with linear models, the F1-scores for minority classes like "Stoicism" remain low (0.21 for SVM). This indicates that while overall accuracy is good, the model still struggles with less represented classes.
 
+### Results on Full Dataset
+
+After verifying model behavior on the small sample, we reran all experiments on the **full dataset**.  
+This produces much more stable and reliable results:
+
+| Model               | Overall Accuracy | Weighted F1-Score | Training Time |
+| :------------------ | :--------------: | :----------------: | :-----------: |
+| Decision Tree       | 46.6%            | 0.46               | 63.10s        |
+| Random Forest       | 58.7%            | 0.58               | 120.33s       |
+| Logistic Regression | 69.6%            | 0.69               | 3.07s         |
+| Linear SVM          | 69.5%            | 0.69               | 12.08s        |
+
+As expected, using all **360k samples** significantly improves performance across all models —  
+especially for minority classes like **Stoicism**, whose F1-score more than doubled on the full dataset.
+
+
+### Sample vs. Full Dataset Comparison
+
+To understand how much we benefit from training on all 360k examples, we compare the metrics from the **small stratified sample** (used in early experiments) and the **full dataset** side by side:
+
+| Model               | Accuracy (Sample) | Accuracy (Full) | Δ Accuracy | Weighted F1 (Sample) | Weighted F1 (Full) | Δ F1  |
+| :------------------ | :---------------: | :-------------: | :--------: | :-------------------: | :----------------: | :---: |
+| Decision Tree       | 39.2%             | 46.6%           | +7.4 pts   | 0.39                  | 0.46               | +0.07 |
+| Random Forest       | 50.6%             | 58.7%           | +8.1 pts   | 0.50                  | 0.58               | +0.08 |
+| Logistic Regression | 63.9%             | 69.6%           | +5.7 pts   | 0.64                  | 0.69               | +0.05 |
+| Linear SVM          | 64.4%             | 69.5%           | +5.1 pts   | 0.64                  | 0.69               | +0.05 |
+
+Key observations:
+
+- **All models improve** by roughly **5–8 percentage points** in accuracy when moving from the sample to the full dataset.
+- The **ranking of models does not change**: linear models (Logistic Regression, Linear SVM) remain clearly stronger than tree-based models, which confirms that our early small-sample experiments were already pointing in the right direction.
+- Tree-based models gain the most in absolute terms (+7–8 pts), but they are still clearly behind the linear models on this high-dimensional, sparse TF-IDF representation.
+- On the full dataset, minority classes such as **Stoicism** see a large boost in F1-score (e.g., Linear SVM Stoicism F1 from ~0.21 on the sample to **0.54** on the full data), showing that using the entire corpus is crucial for rare schools.
+
+
 ## 04 SVM Analysis
 
 
+After identifying Linear SVM as the best performing model, we conducted deeper analysis to examine how the model makes decisions and which linguistic features are most informative for each philosophical school.
+
+### Top 10 Indicative Features for Each School
+
+The following are the top positively weighted TF-IDF tokens for each of the 13 classes. These tokens represent the strongest textual signals that the SVM relies on during classification:
+
+[ANALYTIC]: nozick, counterfactual, frege, carnap, quine, semantical, kaplan, nixon, unicorn, objct  
+[ARISTOTLE]: incontinent, enthymeme, semen, nutriment, excellence, incontinence, empedocles, reputable, concoction, grub  
+[CAPITALISM]: liquidity, bounty, tax, unemployment, investment, butcher, saving, clergy, scarcity, employment  
+[COMMUNISM]: kautsky, imperialism, capitalistic, workpeople, marxism, engels, factory, inspector, bourgeois, colonial  
+[CONTINENTAL]: levinas, artaud, confinement, madness, pinel, oedipal, bic, foucault, derrida, familial  
+[EMPIRICISM]: betwixt, coue, encrease, uneasiness, conformable, commonwealth, solidity, innate, contrivance, immaterial  
+[FEMINISM]: housework, housewife, woman, racism, lynching, mme, rape, motherhood, racist, femininity  
+[GERMAN_IDEALISM]: determinateness, purposiveness, cognition, sache, purposive, alaska, supersensible, sublate, sensuous, principien  
+[NIETZSCHE]: zarathustra, verily, wagner, ye, christianity, germans, instinct, yea, spake, priest  
+[PHENOMENOLOGY]: givenness, ontically, dasein, pregiven, epoche, unconcealment, factical, tactile, ontologically, factically  
+[PLATO]: expertise, dion, critias, clinias, glaucon, cratylus, phaedrus, theaetetus, euthydemus, cebes  
+[RATIONALISM]: bayle, lens, enor, vortex, lhe, jupiter, fiber, wherefore, prop, def  
+[STOICISM]: whatsoever, doth, conceit, unto, hurt, discretion, commend, worldly, thou, meat  
+
+These keywords validate our assumption that different philosophical schools exhibit distinctive linguistic patterns.  
+For example:
+
+- *Nietzsche* includes highly idiosyncratic archaic terms (“verily”, “ye”, “spake”).  
+- *Feminism* contains gender- and society-related vocabulary (“housewife”, “racism”, “rape”).  
+- *Phenomenology* and *Continental* are rich in Heideggerian/German terminology (“dasein”, “givenness”, “facticity”).  
+- *Stoicism* shows early Christian/archaic English structures (“thou”, “doth”).  
+
+## 05 Discussion
+
+
+### Model Performance Insights
+
+Linear models (SVM, Logistic Regression) significantly outperform tree-based models on high-dimensional sparse TF-IDF features.
+
+Tree models overfit easily due to the extremely wide feature space (5,000+ tokens).
+
+Full-dataset training greatly improves minority-class performance, especially “Stoicism,” whose F1-score more than doubled.
+
+### Error Patterns
+
+Misclassification mostly occurs among conceptually similar schools (e.g., Phenomenology vs Continental, Rationalism vs Empiricism).
+
+Schools with limited data (e.g., Stoicism) show unstable predictions when trained on small samples, but improve significantly on the full dataset.
+
+### Linguistic Distinctiveness
+
+The SVM analysis reveals clear linguistic clusters—for instance Nietzsche uses highly archaic spellings, Feminism centers on gender-political terminology, and Phenomenology heavily uses German philosophical terms.
+
+## 06 future work
+
+There are several directions that could further improve our results:
+
+Use more advanced text representations such as sentence embeddings or transformer-based models (e.g., BERT), which may capture deeper semantic patterns than TF-IDF.
+
+Address class imbalance, especially for rare schools like Stoicism, using class weighting or oversampling techniques.
+
+Perform deeper error analysis to understand why certain schools (e.g., Continental vs. Phenomenology) are frequently confused and refine preprocessing accordingly.
+
+Try additional models, including neural networks or regularized linear models with different hyperparameters, to see whether performance can be pushed beyond the current ~70% accuracy.
+
+## 07 Github Repository
+
+https://github.com/epi-hui9/ml-final-proj.git
