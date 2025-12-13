@@ -13,7 +13,7 @@ import torch.optim as optim
 from torch.utils.data import TensorDataset, DataLoader
 
 # --- Configuration ---
-SAMPLE_FILE_PATH = 'data/philosophy_sample_50k.csv'
+SAMPLE_FILE_PATH = '../../data/philosophy_full.csv'
 SPACY_MODEL_NAME = 'en_core_web_md'
 BATCH_SIZE = 32
 EPOCHS = 15  # LSTMs can take longer to converge, but 15 is a good start
@@ -24,7 +24,7 @@ EMBEDDING_DIM = 300  # Dimension of GloVe vectors in spaCy models
 # --- 1. Setup Device (Apple Silicon / M2 Support) ---
 if torch.backends.mps.is_available():
     device = torch.device("mps")
-    print("✅ Success: Using Apple M-series MPS acceleration!")
+    print("✅ Success: Using Apple MPS acceleration!")
 elif torch.cuda.is_available():
     device = torch.device("cuda")
     print("✅ Success: Using NVIDIA CUDA acceleration!")

@@ -12,7 +12,7 @@ import torch.optim as optim
 from torch.utils.data import TensorDataset, DataLoader
 
 # --- Configuration ---
-SAMPLE_FILE_PATH = 'data/philosophy_sample_50k.csv'
+SAMPLE_FILE_PATH = '../../data/philosophy_full.csv'
 # We use the 'medium' (md) model because it contains the actual vector numbers.
 # The 'small' (sm) model does not have vectors.
 SPACY_MODEL_NAME = 'en_core_web_md'
