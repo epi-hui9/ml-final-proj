@@ -257,7 +257,7 @@ Address class imbalance, especially for rare schools like Stoicism, using class 
 
 Perform deeper error analysis to understand why certain schools (e.g., Continental vs. Phenomenology) are frequently confused and refine preprocessing accordingly.
 
-Since TF-IDF captures keywords and LSTMs capture context, we may attempt a hybrid model that concatenates TF-IDF features with the LSTM's dense layer to get the benefits of both see whether performance can be pushed beyond the current \~70% accuracy.
+Since TF-IDF captures keywords and LSTMs capture context, we may attempt a hybrid model that concatenates TF-IDF features with the LSTM's dense layer to get the benefits of both see whether performance can be pushed beyond the current \~75% accuracy.
 
 ---
 
